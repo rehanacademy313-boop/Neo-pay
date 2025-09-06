@@ -1,0 +1,28 @@
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (password !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone, password, referCode }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert(data.message);
+      // Redirect to login page
+      window.location.href = "/login";
+    } else {
+      alert(data.error);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong!");
+  }
+};
